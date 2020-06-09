@@ -2,10 +2,10 @@
 
 import os,string,glob
 
-sample1='Homo-M2_L'
-sample2='Homo-M2_R'
-sample3='HT-M3_L'
-sample4='HT-M3_R'
+sample1='sample1'
+sample2='sample2'
+sample3='sample3'
+sample4='sample4'
 
 REF='/BiO/REF/mm10/mm10'
 gtf='/BiO/REF/mm10/mm.GRCm38.mod.gtf'
