@@ -1,8 +1,7 @@
-##Rscript cummeRbund.R
 ##Install cummeRbund #R version 3.6.3 (2020-02-29)
 #if (!requireNamespace("BiocManager", quietly = TRUE))
 #  install.packages("BiocManager")
-#BiocManager::install("cummeRbund")
+BiocManager::install("cummeRbund")
 library(cummeRbund)
 
 #Reading cuffdiff output
@@ -20,11 +19,11 @@ dens
 dev.off()
 
 pdf(file="scatterplot.pdf")
-csScatter(genes(cuff), 'Homo_M2_L', 'Homo_M2_R',smooth=T)
+csScatter(genes(cuff), 'group1', 'group2',smooth=T)
 dev.off()
 
 pdf(file="volcanoplot.pdf")
-csVolcano(genes(cuff), 'Homo_M2_L', 'Homo_M2_R', alpha= 0.05, showSignificant=T)
+csVolcano(genes(cuff), 'group1', 'group2', alpha= 0.05, showSignificant=T)
 dev.off()
 
 gene.matrix<-fpkmMatrix(genes(cuff))
@@ -72,6 +71,3 @@ gp<-csPie(myGene,level="isoforms")
 pdf(file="csPie.pdf")
 gp
 dev.off()
-
-#https://www.bioconductor.org/packages/release/bioc/vignettes/cummeRbund/inst/doc/cummeRbund-manual.pdf
-'''
