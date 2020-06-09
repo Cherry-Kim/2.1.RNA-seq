@@ -1,6 +1,4 @@
 #!/usr/bin/python
-#REF = /BiO/Reference/galGal5/galGal5_mod2.fa
-#REF2 = /BiO/Reference/galGal5/Gallus_gallus_mod2.gtf
 
 import os,sys
 
@@ -8,7 +6,6 @@ def help():
 	print ''
 	print '[USAGE] *.py [sample]'
 	print ''
-#python 1.RNA-seq_CDL_CLL.py COT2-1D COT2-2D COT2-3D COT1-1L COT1-2L COT1-3L
 
 def main(s1,s2,s3,s4,s5,s6):
 #	print '### STEP0. Trimming with Trimmomatic S1 ###'
