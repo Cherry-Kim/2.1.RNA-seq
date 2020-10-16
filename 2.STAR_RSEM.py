@@ -2,13 +2,13 @@
 
 import string,sys,glob,os
 
-STAR --runMode genomeGenerate --runThreadN 24 --genomeDir /home/hykim/REF/Human/hg38/STAR --genomeFastaFiles GRCh38.fa
+STAR --runMode genomeGenerate --runThreadN 24 --genomeDir /REF/STAR --genomeFastaFiles GRCh38.fa
 
-STAR --genomeDir /home/hykim/REF/Human/hg38/STAR/ --readFilesIn PM-AA-0052-N-A1_1.fastq.gz PM-AA-0052-N-A1_2.fastq.gz --readFilesCommand zcat --outTmpDir /home/hykim/Project/Cancer/Colon/RNA-seq/RAW_fastq_files/temp_rsem7 --outFileNamePrefix test2 --quantMode TranscriptomeSAM
+STAR --genomeDir /REF/STAR/ --readFilesIn sample1_1.fastq.gz sample1_2.fastq.gz --readFilesCommand zcat --outTmpDir /home/temp_rsem --outFileNamePrefix test --quantMode TranscriptomeSAM
 
-rsem-prepare-reference --gtf /home/hykim/REF/Human/hg38/STAR/GRCh38.gtf --star --star-path /home/program/STAR-2.7.2d/bin/Linux_x86_64 -p 8 /home/hykim/REF/Human/hg38/STAR/GRCh38.fa GRCh38
+rsem-prepare-reference --gtf /REF/STAR/GRCh38.gtf --star --star-path /STAR-2.7.2d/bin/Linux_x86_64 -p 8 /REF/STAR/GRCh38.fa GRCh38
 
-rsem-calculate-expression --bam  --paired-end  testAligned.toTranscriptome.out.bam  /home/hykim/REF/Human/hg38/STAR/GRCh38 b
+rsem-calculate-expression --bam  --paired-end  testAligned.toTranscriptome.out.bam  /REF/STAR/GRCh38 b
 
 ### STEP3. PCA ###
 from rpy2 import robjects as ro
