@@ -53,7 +53,6 @@ with(subset(dds_results, padj<.01 ), points(log2FoldChange, -log10(pvalue), pch=
 with(subset(dds_results, padj<.01 & abs(log2FoldChange)>2), points(log2FoldChange, -log10(pvalue), pch=20, col="red"))
 
 # Get differentially expressed gene matrix
-# p-adjusted<0.1, |log2FC|>1
 dds_significant <- dds_results[!is.na(dds_results$padj) &
                                  dds_results$padj<0.10 &
                                  abs(dds_results$log2FoldChange)>=1,]
@@ -67,10 +66,9 @@ for(i in 1:nrow(dds_significant)){
 }
 
 significant_genes_symbol<-rownames(dds_significant)
-
-# Save result table in csv file
 write.csv(dds_significant, file="DESeq2_significant_results.csv")
-# Making heat map
+
+# Making heatmap
 install.packages("RColorBrewer")
 library(RColorBrewer)
 
