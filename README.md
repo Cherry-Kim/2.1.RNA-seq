@@ -1,12 +1,12 @@
-# RNA-seq
-# Download the latest release from and uncompress it
-$wget https://github.com/alexdobin/STAR/archive/2.7.9a.tar.gz
+# RNA-seq <hr/>
+## Download the latest release from and uncompress it <br />
+> $wget https://github.com/alexdobin/STAR/archive/2.7.9a.tar.gz
 
-$tar -xzf 2.7.9a.tar.gz
+> >$tar -xzf 2.7.9a.tar.gz
 
-# Compile under Linux
+## Compile under Linux
+```
 $cd STAR-2.7.9a/source/
-
-$make STAR
-
+$make STAR 
 $sudo cp STAR /usr/local/bin
+```
