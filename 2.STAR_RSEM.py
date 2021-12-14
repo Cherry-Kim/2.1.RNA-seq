@@ -6,6 +6,8 @@ import string,sys,glob,os
 from rpy2 import robjects as ro
 r = ro.r
 
+wget wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz
+
 
 STAR --runMode genomeGenerate --runThreadN 24 --genomeDir /REF/STAR --genomeFastaFiles GRCh38.fa
 
