@@ -12,11 +12,12 @@ wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.
 mv Homo_sapiens.GRCh38.101.gtf GRCh38.gtf
 mv Homo_sapiens.GRCh38.dna.primary_assembly.fa GRCh38.fa
 #-----------------------------------------------------------------------------------------------
-
 STAR   --runMode genomeGenerate  --runThreadN 48   --genomeDir .   --genomeFastaFiles GRCh38.fa  --outFileNamePrefix GRCh38   --sjdbGTFfile GRCh38.gtf   --sjdbOverhang 100
-STAR --genomeDir /REF/STAR/ --readFilesIn sample1_1.fastq.gz sample1_2.fastq.gz --readFilesCommand zcat --outTmpDir /home/temp_rsem --outFileNamePrefix test --quantMode TranscriptomeSAM
-
 rsem-prepare-reference --gtf /REF/STAR/GRCh38.gtf --star --star-path /STAR-2.7.2d/bin/Linux_x86_64 -p 8 /REF/STAR/GRCh38.fa GRCh38
+#-----------------------------------------------------------------------------------------------
+
+
+STAR --genomeDir /REF/STAR/ --readFilesIn sample1_1.fastq.gz sample1_2.fastq.gz --readFilesCommand zcat --outTmpDir /home/temp_rsem --outFileNamePrefix test --quantMode TranscriptomeSAM
 rsem-calculate-expression --bam  --paired-end  testAligned.toTranscriptome.out.bam  /REF/STAR/GRCh38 b
 
 ### STEP3. PCA ###
