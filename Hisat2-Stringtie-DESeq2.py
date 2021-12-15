@@ -21,7 +21,7 @@ for fname in fp:
 
 ###### STEP3. DEG in R ########
 library(tximport)
-devtools::install_github("tidyverse/readr")
+#devtools::install_github("tidyverse/readr")
 library(tidyverse)
 library(readr)
 library(DESeq2)
