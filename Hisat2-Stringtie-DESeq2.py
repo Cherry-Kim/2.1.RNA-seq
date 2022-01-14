@@ -10,8 +10,8 @@ for fname in fp:
 	os.system('hisat2 -p 20 --dta --rna-strandness RF --novel-splicesite-outfile '+sample+'.novel_splicesites.txt -x hisat2-2.2.1/example/index/22_20-21M_snp  -1 '+sample+'_1.fq.gz -2 '+sample+'_2.fq.gz -S '+sample+'.sam')
 	# Hisat index : https://daehwankimlab.github.io/hisat2/download/
 
-	os.system('samtools view -@ 8 -bhS '+sample+'.sam > '+sample+'.bam')
-	os.system('samtools sort -@ 8 -o '+sample+'.sroted.bam '+sample+'.bam')
+	os.system('samtools view -@ 48 -bhS '+sample+'.sam > '+sample+'.bam')
+	os.system('samtools sort -@ 48 -o '+sample+'.sroted.bam '+sample+'.bam')
 
 	print co, sample, "STEP2. Expression profiling using STRINGTIE"
 	os.system('stringtie '+sample+'.sroted.bam --rf -p 20 -l '+sample+' -o '+sample+'.gtf -G hg19.refGene.gtf -A '+sample+'.gene_abund.anno.tab -C '+sample+'.cov_refs.anno.gtf -e')
