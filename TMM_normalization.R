@@ -20,7 +20,7 @@ TMM_norm <- function(){
         }
 
         rownames(dat.log2) <- data[,1]
-        write.table(dat.log2, file="blca_tcga_TMMnorm.txt",sep="\t", col.names=NA, quote=FALSE)
+        write.table(dat.log2, file="output_TMMnorm.txt",sep="\t", col.names=NA, quote=FALSE)
 
 #       rownames(cps) <- as.character(data[,1])
 
