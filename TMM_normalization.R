@@ -10,7 +10,7 @@ TMM_norm <- function(){
 
         group <- colnames(data[3:ncol(data)])
         d <- DGEList(counts = data[,3:ncol(data)], group=group)
-        d <- calcNormFactors(d, method="TMM")   ##Normalize your raw data using the TMM method
+        d <- calcNormFactors(d, method="TMM")   #Normalize your raw data using the TMM method
         cps <- cpm(d, normalized.lib.sizes=TRUE)
 
         re.dat <- cps
