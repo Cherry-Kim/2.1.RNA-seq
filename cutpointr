@@ -1,0 +1,9 @@
+library(cutpointr)
+data <- read.table("cutoff_input.txt",header=T, stringsAsFactors=F, sep='\t')
+#best_response   response        sample  gene1     gene2   
+#A      0       S001 13.61937        13.37922        
+#B      1       S002 13.17767        12.04530        
+
+cp <- cutpointr(data, gene, response, boot_runs = 1000, pos_class = "yes",neg_class = "no", direction = ">=",method = maximize_metric, metric = sum_sens_spec)
+summary(cp)
+plot(cp)
