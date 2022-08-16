@@ -7,7 +7,7 @@ from rpy2 import robjects as ro
 r = ro.r
 
 #-----------------------------------------------------------------------------------------------
-wget wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz
+wget http://ftp.ensembl.org/pub/release-104/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz
 mv Homo_sapiens.GRCh38.101.gtf GRCh38.gtf
 mv Homo_sapiens.GRCh38.dna.primary_assembly.fa GRCh38.fa
