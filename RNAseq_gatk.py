@@ -27,4 +27,8 @@ def STEP2_DUPLICATE(SAMPLE):
 def STEP3_SplitNCigarReads(SAMPLE,REFERENCE_GENOME):
     os.system('gatk SplitNCigarReads  -R '+ REFERENCE_GENOME +' -I '+SAMPLE+'marked_duplicates.bam -O '+SAMPLE+'splitN.bam')
 
+def STEP4_BQSR(SAMPLE,REFERENCE_GENOME,DBSNP):
+    os.system('gatk AddOrReplaceReadGroups --CREATE_INDEX true -I '+SAMPLE+'splitN.bam -O '+SAMPLE+'.grouped.bam --RGID rnasq --RGLB lb --RGPL illumina --RGPU pu --RGSM '+SAMPLE)
+    os.system('gatk BaseRecalibrator -I '+SAMPLE+'.grouped.bam  -R '+REFERENCE_GENOME+' --known-sites '+DBSNP+' -O '+SAMPLE+'.recal_data.table')
+    os.system('gatk ApplyBQSR -R '+REFERENCE_GENOME+' -I '+SAMPLE+'.grouped.bam --use-original-qualities --add-output-sam-program-record --bqsr-recal-file '+SAMPLE+'.recal_data.table -O '+SAMPLE+'.recal_output.bam')
 
