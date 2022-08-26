@@ -18,4 +18,8 @@ def STEP0_GRCh38(STAR_HUMAN_INDEX,REFERENCE_GENOME,GTF,remapNCBI):
     os.system('bcftools annotate --threads 48 --output-type z --rename-chrs '+remapNCBI+' --output dbSNPbuild154Renamed.vcf.gz GCF_000001405.39.gz')
     os.system('tabix dbSNPbuild154Renamed.vcf.gz')
 
-    
+def STEP1_STAR(STAR_HUMAN_INDEX,SAMPLE):
+    os.system('trim_galore --paired -j 48 --gzip  -o trim_galore/ --fastqc  '+ SAMPLE +'_R1.fastq.gz '+ SAMPLE +'_R2.fastq.gz  -q 20 --length 20')
+    os.system('STAR --runThreadN 48 --genomeDir '+ STAR_HUMAN_INDEX+' --readFilesIn trim_galore/'+ SAMPLE +'_R1_val_1.fq.gz trim_galore/'+ SAMPLE +'_R2_val_2.fq.gz  --outFileNamePrefix '+SAMPLE +' --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1')
+
+
