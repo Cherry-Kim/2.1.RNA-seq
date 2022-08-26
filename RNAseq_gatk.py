@@ -1,5 +1,4 @@
 import string,sys,os,glob
-
 def STEP0_GRCh38(STAR_HUMAN_INDEX,REFERENCE_GENOME,GTF,remapNCBI):
     os.system('wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/GRCh38.primary_assembly.genome.fa.gz')
     os.system('wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/gencode.v34.primary_assembly.annotation.gtf.gz')
