@@ -21,4 +21,10 @@ def STEP1_STAR(STAR_HUMAN_INDEX,SAMPLE):
     os.system('trim_galore --paired -j 48 --gzip  -o trim_galore/ --fastqc  '+ SAMPLE +'_R1.fastq.gz '+ SAMPLE +'_R2.fastq.gz  -q 20 --length 20')
     os.system('STAR --runThreadN 48 --genomeDir '+ STAR_HUMAN_INDEX+' --readFilesIn trim_galore/'+ SAMPLE +'_R1_val_1.fq.gz trim_galore/'+ SAMPLE +'_R2_val_2.fq.gz  --outFileNamePrefix '+SAMPLE +' --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1')
 
+def STEP2_DUPLICATE(SAMPLE):
+    os.system('gatk MarkDuplicates --CREATE_INDEX true -I '+SAMPLE+'Aligned.sortedByCoord.out.bam  -O '+SAMPLE+'marked_duplicates.bam --VALIDATION_STRINGENCY SILENT  -M '+SAMPLE+'marked_dup_metrics.txt')
+
+def STEP3_SplitNCigarReads(SAMPLE,REFERENCE_GENOME):
+    os.system('gatk SplitNCigarReads  -R '+ REFERENCE_GENOME +' -I '+SAMPLE+'marked_duplicates.bam -O '+SAMPLE+'splitN.bam')
+
 
