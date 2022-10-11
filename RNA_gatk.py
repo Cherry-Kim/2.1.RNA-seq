@@ -1,5 +1,5 @@
 import string,sys,os,glob
-
+#Identification of cancer-related mutations in human pliripotent stem cells using RNA-seq analysis
 def STEP0_hg38(STAR_HUMAN_INDEX,REFERENCE_GENOME,gtf):
     #1. Reference data download
     ##wget https://github.com/broadinstitute/picard/releases/download/2.27.4/picard.jar
