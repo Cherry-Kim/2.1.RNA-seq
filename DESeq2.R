@@ -24,6 +24,7 @@ for (i in colnames(B)[1:226]){
 
 Sample=factor(c(T,N))
 Group=factor(rep(c("T","N"),c(226,226)))
+Group <- relevel(Group, ref = "N")
 sampleData <- data.frame(Sample=Sample,Group)
 
 dds <- DESeqDataSetFromMatrix(countData = round(counts), colData = sampleData, design = ~ Sample + Group)
