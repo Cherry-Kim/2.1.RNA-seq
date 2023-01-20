@@ -76,7 +76,7 @@ STEP3_TMMnorm <- function(){
         TMM_ColName <- paste("TMMlog2_",gsub(".bam", "",colnames(dat.log2)),sep="")
         colnames(dat.log2) <- TMM_ColName
         
-        ### DEG Analysis ###
+        ### DEG Analysis - 1. DESeq2 ###
         library(DESeq2)
         W=c()
         for (i in colnames(dat.log2)[1:20]){
@@ -95,6 +95,16 @@ STEP3_TMMnorm <- function(){
         dds_results <- results(dds, contrast = c("Group","cancer", "control")) #Group cancer vs control
         Result2 <- cbind(Data[,2:4],dds_results, dat.log2, CountData2)
         write.csv(Result2, file="DESeq2_black_white.csv", quote=F)
+           
+       ### DEG Analysis - 2. limma ###
+        library(limma)
+        design <- model.matrix(~0 +Group)
+        fit <- lmFit(dat.log2, design)
+        contr <- makeContrasts(Groupcancer - Groupcontrol, levels = colnames(coef(fit)))
+        tmp <- contrasts.fit(fit, contr)
+        tmp <- eBayes(tmp)
+        result <- topTable(tmp, sort.by = "P", n = Inf)
+        write.table(result,file="TMMnorm_count.log2.lm.txt",sep="\t", col.names=NA,quote=F)
 }
 
 TMM_Wilcox <- function(){
