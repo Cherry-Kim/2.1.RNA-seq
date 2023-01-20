@@ -72,6 +72,15 @@ STEP3_TMMnorm <- function(){
         for (i in 1:ncol(TMM)){
                 dat.log2[,i] <- log(TMM[,i]+1,2)
         }
+       #=========================================================
+        itr <- c()
+        for(i in 1:nrow(dat.log2)){
+                if(sd(dat.log2[i,])==0)
+                        {itr <- c(itr,i)}
+        }
+        length(itr)
+        in.dat <- dat.log2[-itr,]
+        #=========================================================
 
         TMM_ColName <- paste("TMMlog2_",gsub(".bam", "",colnames(dat.log2)),sep="")
         colnames(dat.log2) <- TMM_ColName
