@@ -31,3 +31,33 @@ rsem-calculate-expression --bam  --paired-end  testAligned.toTranscriptome.out.b
 from rpy2 import robjects as ro
 r = ro.r
 r.source("edgeR.R")
+
+import string,sys,glob,os
+  
+def STEP1_Preprocessing(sample):
+    #os.system('fastqc -t 48 --nogroup '+sample+'.R1.fastq.gz')
+    #os.system('fastqc -t 48 --nogroup '+sample+'.R2.fastq.gz')
+
+    os.system('trim_galore --paired  --gzip --fastqc  -o trim_galore/ '+sample+'.R1.fastq.gz '+sample+'.R2.fastq.gz  -q 20 --length 20')
+    ##os.system('multiqc ./')
+
+def STEP2_STAR(sample,REF):
+    os.system('STAR --runThreadN 48  --genomeDir '+REF+' --readFilesIn trim_galore/'+sample+'.R1_val_1.fq.gz trim_galore/'+sample+'.R2_val_2.fq.gz --readFilesCommand zcat --outTmpDir TEMP_'+sample+'  --outFileNamePrefix '+sample+' --quantMode TranscriptomeSAM')
+
+def STEP3_RSEM(sample,REF,SP):
+    os.system('/BIO1/RSEM-1.3.3/rsem-calculate-expression -p 48  --bam --paired-end '+sample+'.Aligned.toTranscriptome.out.bam '+REF+SP+' '+sample)
+
+def Main():
+    REF,SP = 'REF/mm10/','mm10'   #REF,SP = 'REF/GRCh38/','GRCh38' 
+    co = 0
+    file_list=os.listdir('./')
+    f_list=[file for file in file_list if file.endswith(".R1.fastq.gz")]
+    for fname in f_list:
+        co += 1
+        sample = fname.split('.R1.fastq.gz')[0]
+        print ("###",co,sample)
+        #STEP1_Preprocessing(sample)
+        STEP2_STAR(sample,REF)
+        #STEP3_RSEM(sample,REF,SP)
+Main()
+
