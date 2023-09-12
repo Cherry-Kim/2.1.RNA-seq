@@ -117,7 +117,7 @@ STEP3_TMMnorm <- function(){
 }
 
 TMM_Wilcox <- function(){
-        library(dply)
+        library(dplyr)
         dat.log3 <- as.data.frame(dat.log2)
         dat.log3$Avg.control <- rowMeans(dat.log3[,1:20])
         dat.log3$Avg.cancer <- rowMeans(dat.log3[,21:56])
