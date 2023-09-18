@@ -27,9 +27,9 @@ A <- function(){
         dat.log2$log2FC <- dat.log2$2 -dat.log2$1
 
         combined_data <- data.frame(
-          pos = data$pos,
-          VEH = data$1,
-          ONT = data$2,
+          pos = my_data[1],
+          VEH = my_data[2],
+          ONT = my_data[3],
           VEH.log2 = dat.log2$1,
           ONT.log2 = dat.log2$2,
           log2FC = dat.log2$log2FC
