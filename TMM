@@ -1,0 +1,42 @@
+A <- function(){
+        data <- read.table('1_read_counts.txt')
+        data2 <- read.table('2_read_counts.txt')
+        data3 <- cbind(data,data2$V4)
+        data3$pos <- paste(data3$V1, data3$V2, data3$V3, sep = ':')
+        my_data <- data.frame( data3$pos,data3[, 4:5])
+        colnames(my_data) <- c('pos','1','ONT')
+        write.table(my_data,'1_2_read_counts2.txt',quote=FALSE,row.names=F)
+
+        d <- duplicated(my_data$pos)
+        data <- my_data[!d,]
+
+        library(edgeR)
+        group <- colnames(data[2:ncol(data)])
+        d <- DGEList(counts = data[,2:ncol(data)], group=group)
+        d <- calcNormFactors(d, method="TMM")
+        cps <- cpm(d, normalized.lib.sizes=TRUE)
+
+        re.dat <- cps
+                dat.log2 <- re.dat
+                for (i in 1:ncol(re.dat)){
+                        dat.log2[,i] <- log(re.dat[,i]+1,2)
+                }
+        rownames(dat.log2) <- data[,1]
+
+        dat.log2 <- as.data.frame(dat.log2)
+        dat.log2$log2FC <- dat.log2$2 -dat.log2$1
+
+        combined_data <- data.frame(
+          pos = data$pos,
+          VEH = data$1,
+          ONT = data$2,
+          VEH.log2 = dat.log2$1,
+          ONT.log2 = dat.log2$2,
+          log2FC = dat.log2$log2FC
+        )
+        write.table(combined_data, file="1_ONT_TMMnorm.txt",sep="\t", col.names=NA, quote=FALSE)
+
+        percentile_95 <- quantile(combined_data$log2FC, probs = 0.95)   
+        filtered_df <- combined_data[combined_data$log2FC > 0.5, ]
+        write.table(filtered_df, file="1_2_TMMnorm.filtered.txt",sep="\t", col.names=NA, quote=FALSE)
+}
