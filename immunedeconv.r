@@ -15,7 +15,8 @@
         counts <- data[,-1]
         rownames(counts) <- as.character(data[,1])
         res_mcp_counter = deconvolute(counts, "mcp_counter")
-        res_mcp_counter = deconvolute(counts, "mcp_counter")
+        #  cell_type          TH_1_T_str TH_10_T_str TH_11_T_str TH_12_T_str TH_15_T_str
+        #1 T cell                 176.         205.       122.         560.       115.  
         #png(OUTPUT)
         res_mcp_counter %>%
                 gather(sample, score, -cell_type) %>%
