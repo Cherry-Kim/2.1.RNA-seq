@@ -4,16 +4,16 @@ volcano <- function(){
         # hgnc_symbol log2FoldChange     lfcSE         stat      pvalue       padj
 #1       NLRP2    0.006522454 0.6942832  0.009394515 0.992504372 0.99957973
         colnames(topT) <- c("symbol","log2FC","lfcSE","stat","pvalue","padj")
-        cut_lfc <- 2
-        cut_pvalue <- 0.01
-        topT$Sig <- ifelse( (topT$pvalue <cut_pvalue & topT$log2FC<(-cut_lfc)) | (topT$pvalue <cut_pvalue & topT$log2FC>cut_lfc), TRUE, FALSE)
-        table(topT$Sig)
+      
+        cut_lfc <- 0.58
+        cut_fdr <- 0.05
 
         par(mar=c(5,5,5,5), cex=1.0, cex.main=1.4, cex.axis=1.4, cex.lab=1.4)
-        with(topT, plot(log2FC, -log10(pvalue), pch=20, main="", col='grey', cex=1.0, xlab=bquote(~log2(Fold~Change)), ylab=bquote(~-log10(p))) )
+        with(topT, plot(log2FC, -log10(pvalue), pch=20, main="PR vs. NR (ref=NR)", col='grey', cex=1.0, xlab=bquote(~log2(Fold~Change)), ylab=bquote(~-log10(pvalue))) )
         with(subset(topT, pvalue<0.05 & log2FC>cut_lfc), points(log2FC, -log10(pvalue), pch=20, col='red', cex=1.5))
         with(subset(topT, pvalue<0.05 & log2FC <(-cut_lfc)), points(log2FC, -log10(pvalue), pch=20, col='blue', cex=1.5))
         with(subset(topT, topT$Sig == TRUE), points(log2FC, -log10(pvalue), pch=20, col='green', cex=1.5))
+
 
         abline(v=0, col='black', lty=3, lwd=1.0)
         abline(v=-cut_lfc, col='black', lty=4, lwd=2.0)
