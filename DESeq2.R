@@ -1,9 +1,9 @@
 STEP1_tximport <- function(){
         library(tximport)
-        files <- c("SRR26175961.genes.results", "SRR26175962.genes.results", "SRR26175963.genes.results", "SRR26175964.genes.results")
-        names(files) <- c("SRR26175961", "SRR26175962", "SRR26175963", "SRR26175964")
-#                SRR26175961                 SRR26175962
-#"SRR26175961.genes.results" "SRR26175962.genes.results"
+        files <- c("S1.genes.results", "S2.genes.results", "S3.genes.results", "S4.genes.results")
+        names(files) <- c("S1", "S2", "S3", "S4")
+#                S1                 S2
+#"S1.genes.results" "S2.genes.results"
 
         txi <- tximport(files,
                 type = "rsem",  txIn = FALSE, txOut = FALSE)
