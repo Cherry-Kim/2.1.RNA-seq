@@ -1,4 +1,4 @@
-STEP1_tximport <- function(){
+Step1_tximport <- function(){
         library(tximport)
         files <- c("S1.genes.results", "S2.genes.results", "S3.genes.results", "S4.genes.results")
         names(files) <- c("S1", "S2", "S3", "S4")
@@ -10,44 +10,37 @@ STEP1_tximport <- function(){
         write.table(txi$counts, "txi.rsem.counts.txt", col.names=NA, row.names=T, quote=F,sep='\t')
 }
 
+Step2_DESeq2 <- function(){
+        library(DESeq2)
+        rawCounts <- txi$counts
+        rawCounts <- as.data.frame(rawCounts)
+        rawCounts <- rownames_to_column(rawCounts, var = "GENE")
+        #> head(rawCounts)
+        #        GENE S1 S2 S3 S4
+        #1 ENSG00000000003.15       52.00        43.0      129.00      142.00
 
+        A <- rawCounts$GENE
+        B <-rawCounts[,2:5]
+        C <- cbind(A,B)
+        counts <- as.matrix(C[,-1])
+        rownames(counts) <- C[,1]
 
-library(DESeq2)
+        Sample <- factor(c("S1", "S2", "S3", "S4"))
+        Group <- factor(c("T","T","N","N"))
+        Group <- relevel(Group, ref = "N")
+        sampleData <- data.frame(Sample=Sample, Group)
 
-rawCounts <- read.table("edgeR_inpit.txt", sep="\t", header=T, stringsAsFactor=F)
+        dds <- DESeqDataSetFromMatrix(
+          countData = round(counts),
+          colData = sampleData,
+          design = ~ Group
+        )
+        dds <- DESeq(dds)
 
-A <- rawCounts$GENE
-B <-rawCounts[,2:453]
-C <- cbind(A,B)
-
-counts <- as.matrix(C[,-1])
-
-rownames(counts) <- C[,1]
-head(counts[1:3,1:3])
-
-T=c()
-for (i in colnames(B)[1:226]){
-  s = unlist(strsplit(i,split=".T.genes.results"))
-  T = c(T,s)
+        dds_results <- results(dds)
+        dds_results <- dds_results[order(dds_results$padj),]
+        write.csv(dds_results, file="DESeq2.out.csv")
 }
-N=c()
-for (i in colnames(B)[1:226]){
-  s = unlist(strsplit(i,split=".T.genes.results"))
-  N = c(N,s)
-}
-
-Sample=factor(c(T,N))
-Group=factor(rep(c("T","N"),c(226,226)))
-Group <- relevel(Group, ref = "N")
-sampleData <- data.frame(Sample=Sample,Group)
-
-dds <- DESeqDataSetFromMatrix(countData = round(counts), colData = sampleData, design = ~ Sample + Group)
-dds <- DESeq(dds)
-
-dds_results <- results(dds, contrast = c("Group","T", "N"))
-dds_results_test<- results(dds)
-dds_results <- dds_results[order(dds_results$padj),]
-write.csv(dds_results, file="DESeq2_results.csv")
 ############################################################
 
 par(mfrow = c(1,1))
