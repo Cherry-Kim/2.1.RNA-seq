@@ -1,3 +1,17 @@
+STEP1_tximport <- function(){
+        library(tximport)
+        files <- c("SRR26175961.genes.results", "SRR26175962.genes.results", "SRR26175963.genes.results", "SRR26175964.genes.results")
+        names(files) <- c("SRR26175961", "SRR26175962", "SRR26175963", "SRR26175964")
+#                SRR26175961                 SRR26175962
+#"SRR26175961.genes.results" "SRR26175962.genes.results"
+
+        txi <- tximport(files,
+                type = "rsem",  txIn = FALSE, txOut = FALSE)
+        write.table(txi$counts, "txi.rsem.counts.txt", col.names=NA, row.names=T, quote=F,sep='\t')
+}
+
+
+
 library(DESeq2)
 
 rawCounts <- read.table("edgeR_inpit.txt", sep="\t", header=T, stringsAsFactor=F)
