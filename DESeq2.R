@@ -41,6 +41,27 @@ Step2_DESeq2 <- function(){
         dds_results <- dds_results[order(dds_results$padj),]
         write.csv(dds_results, file="DESeq2.out.csv")
 }
+
+Step3_gene <- function(){
+        library('biomaRt')
+        dds_results <- read.csv('DESeq2.csv')
+        genes <-  dds_results$X
+        genes_clean <- sub("\\..*", "", genes)
+
+        library(org.Hs.eg.db)
+        library(AnnotationDbi)
+        gene_symbol <- mapIds(
+          org.Hs.eg.db,
+          keys = genes_clean,
+          column = "SYMBOL",
+          keytype = "ENSEMBL",
+          multiVals = "first"
+        )
+        dds_results$GENE <- gene_symbol[genes_clean]
+        dds_results <- dds_results[, c("X", "GENE", setdiff(colnames(dds_results), c("X", "GENE")))]
+        colnames(dds_results)[colnames(dds_results) == "X"] <- "ID"
+        write.csv(dds_results, "DESeq2.gene.csv", quote = FALSE, row.names = FALSE))
+}
 ############################################################
 
 par(mfrow = c(1,1))
